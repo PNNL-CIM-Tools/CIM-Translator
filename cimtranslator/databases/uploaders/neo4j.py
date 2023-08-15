@@ -9,11 +9,11 @@ import rdflib
 from typing import Dict, List, Optional
 
 
-from neo4j import GraphDatabase, RoutingControl
+from neo4j import GraphDatabase
 from neo4j.exceptions import DriverError, Neo4jError
 
-from cimgraph.databases import ConnectionInterface, ConnectionParameters, Parameter, QueryResponse
-from cimgraph.databases import Neo4JConnection
+from cimtranslator.databases import ConnectionInterface, ConnectionParameters, Parameter, QueryResponse
+# from cimgraph.databases.neo4j import Neo4JConnection
 
 import rdflib
 # from rdflib import Graph, Namespace
@@ -59,26 +59,18 @@ class Neo4jUploader(ConnectionInterface):
             _log.exception("CIM profile and namespace must be defined in ConnectionParameters")
 
         graph_config = """call n10s.graphconfig.init({
-            handleMultival: "ARRAY", 
-            handleVocabUris: "KEEP",
+            handleMultival: "OVERWRITE", 
+            handleVocabUris: "IGNORE",
             keepCustomDataTypes: true,
             handleRDFTypes: "LABELS"})"""
         self.execute(graph_config)
 
-    def upload_from_ttl(self, file):
-        self.execute(f"call n10s.rdf.import.fetch( {file}, \"Turtle\") ") 
-        
-
-    def upload_from_xml(self, file):
-        
-        # rdf_namespace = rdflib.Namespace(self.namespace)
-        # rdf_graph = rdflib.Graph()
-        # rdf_graph.parse(file)
-        # rdf_graph.bind("cim", rdf_namespace)
-        # rdf_graph.bind("rdf", RDF)
-
-        self.execute(f"call n10s.rdf.import.fetch( {file}, \"RDF/XML\") ")
-
+    def upload(self, url:str=None, filepath:str=None, filename:str=None, format:str=None):
+        if url is not None:
+            records=self.execute(f"""call n10s.rdf.import.fetch( {url}, "{format}"); """) 
+        elif filepath is not None and filename is not None:
+            records=self.execute(f"""call n10s.rdf.import.fetch( "file://{filepath}/{filename}", "{format}"); """) 
+        return records
 
 
     def upload_from_rdflib(self, rdflib_graph):

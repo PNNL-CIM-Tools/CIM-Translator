@@ -1,1 +1,1 @@
-from cimtranslate.databases.uploaders import Neo4JUploader
+from cimtranslator.databases.uploaders.neo4j import Neo4jUploader
