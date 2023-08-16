@@ -1,10 +1,10 @@
 [tool.poetry]
-name = "cim-translator"
+name = "cim-loader"
 version = "v0.0.1a"
 description = "CIM Translator"
 authors = ["A. Anderson <19935503+AAndersn@users.noreply.github.com>"]
 packages = [
-    { include = "cimtranslator" }
+    { include = "cimloader" }
 ]
 readme = "README.md"
 

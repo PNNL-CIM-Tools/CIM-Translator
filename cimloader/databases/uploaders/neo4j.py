@@ -12,7 +12,7 @@ from typing import Dict, List, Optional
 from neo4j import GraphDatabase
 from neo4j.exceptions import DriverError, Neo4jError
 
-from cimtranslator.databases import ConnectionInterface, ConnectionParameters, Parameter, QueryResponse
+from cimloader.databases import ConnectionInterface, ConnectionParameters, Parameter, QueryResponse
 # from cimgraph.databases.neo4j import Neo4JConnection
 
 import rdflib
