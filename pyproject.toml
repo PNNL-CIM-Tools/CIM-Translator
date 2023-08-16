@@ -1,0 +1,34 @@
+[tool.poetry]
+name = "cim-loader"
+version = "v0.0.1a"
+description = "CIM Translator"
+authors = ["A. Anderson <19935503+AAndersn@users.noreply.github.com>"]
+packages = [
+    { include = "cimloader" }
+]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = ">=3.8.1,<4.0"
+xsdata = "^22.5"
+SPARQLWrapper = "^2.0.0"
+neo4j = "^5.10.0"
+rdflib = "^7.0.0"
+rdflib-neo4j = "^0.0.1b6"
+
+#cim-graph = "^1.0.0"
+#git = "https://github.com/PNNL-CIM-Tools/CIM-Graph/tree/main", branch = "v_1_0_0a", optional = true }
+
+[tool.poetry.extras]
+gridappsd = ["gridappsd-python"]
+
+[tool.poetry.group.dev.dependencies]
+pre-commit = "^2.17.0"
+xsdata = {extras = ["cli"], version = "^22.2"}
+xsdata-plantuml = "^21.4"
+graphviz = "^0.19.1"
+
+
+[build-system]
+requires = ["poetry-core>=1.2.0"]
+build-backend = "poetry.core.masonry.api"
