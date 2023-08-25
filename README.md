@@ -2,7 +2,6 @@
 Automated scripts for 
 * uploading and downloading CIM files from various databases
 * converting CIM files between common formats (XML, TTL, etc.)
-* converting CIM files between different profiles (CIM15 -> CIM18)
 
 ## Installation
 PyPi version coming soon.
