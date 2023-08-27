@@ -15,6 +15,9 @@ SPARQLWrapper = "^2.0.0"
 neo4j = "^5.10.0"
 rdflib = "^7.0.0"
 rdflib-neo4j = "^0.0.1b6"
+opendssdirect = "^0.8.2"
+requests = "^2.30.0"
+
 
 #cim-graph = "^1.0.0"
 #git = "https://github.com/PNNL-CIM-Tools/CIM-Graph/tree/main", branch = "v_1_0_0a", optional = true }

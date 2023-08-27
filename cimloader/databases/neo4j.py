@@ -13,7 +13,6 @@ from neo4j import GraphDatabase
 from neo4j.exceptions import DriverError, Neo4jError
 
 from cimloader.databases import ConnectionInterface, ConnectionParameters, Parameter, QueryResponse
-# from cimgraph.databases.neo4j import Neo4JConnection
 
 import rdflib
 # from rdflib import Graph, Namespace

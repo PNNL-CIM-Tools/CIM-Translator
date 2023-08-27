@@ -1,4 +1,4 @@
-from cimgraph.databases import ConnectionInterface, ConnectionParameters, Parameter, QueryResponse
+from cimloader.databases import ConnectionInterface, ConnectionParameters, Parameter, QueryResponse
 
 import io
 import zipfile

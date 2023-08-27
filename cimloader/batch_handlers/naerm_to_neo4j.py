@@ -1,7 +1,7 @@
 from cimloader.web_apis.naerm_api import NAERM
 from cimloader.databases.neo4j import Neo4j
 from cimloader.converters.dss_to_cim import DSStoCIM
-from cimgraph.databases import ConnectionInterface, ConnectionParameters, Parameter, QueryResponse
+from cimloader.databases import ConnectionInterface, ConnectionParameters, Parameter, QueryResponse
 
 import os
 import logging
