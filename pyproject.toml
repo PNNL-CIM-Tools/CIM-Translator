@@ -15,7 +15,7 @@ SPARQLWrapper = "^2.0.0"
 neo4j = "^5.10.0"
 rdflib = "^7.0.0"
 rdflib-neo4j = "^0.0.1b6"
-opendssdirect = "^0.8.2"
+OpenDSSDirect.py = "^0.8.2"
 requests = "^2.30.0"
 
 
