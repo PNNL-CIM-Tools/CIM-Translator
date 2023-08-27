@@ -1,1 +1,1 @@
-from cimloader.uploaders.neo4j import Neo4jUploader
+from cimloader.databases.neo4j import Neo4j

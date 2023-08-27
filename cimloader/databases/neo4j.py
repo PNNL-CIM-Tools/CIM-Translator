@@ -21,7 +21,7 @@ from rdflib.namespace import RDF
 
 _log = logging.getLogger(__name__)
 
-class Neo4jUploader(ConnectionInterface):
+class Neo4j(ConnectionInterface):
     def __init__(self, connection_parameters):
         self.connection_parameters = connection_parameters
         self.cim_profile = connection_parameters.cim_profile
