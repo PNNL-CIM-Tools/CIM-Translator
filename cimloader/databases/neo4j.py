@@ -71,6 +71,11 @@ class Neo4j(ConnectionInterface):
             records=self.execute(f"""call n10s.rdf.import.fetch( "file://{filepath}/{filename}", "{format}"); """) 
         return records
 
+    def upload_from_file(self):
+        pass
+
+    def upload_from_url(self):
+        pass
 
     def upload_from_rdflib(self, rdflib_graph):
 
