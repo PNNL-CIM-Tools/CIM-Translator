@@ -1,5 +1,5 @@
 from cimloader.web_apis.naerm_api import NAERM
-from cimloader.databases.neo4j import Neo4j
+from cimloader.databases.neo4j import Neo4jConnection
 from cimloader.converters.dss_to_cim import DSStoCIM
 from cimloader.databases import ConnectionInterface, ConnectionParameters, Parameter, QueryResponse
 
@@ -14,7 +14,7 @@ class NAERMtoNeo4j():
     def __init__(self, naerm_params:ConnectionInterface, neo4j_params:ConnectionInterface, 
                  tmp_dir:str, docker_container:str):
         self.NaermDownloader = NAERM(naerm_params)
-        self.Neo4jConnection= Neo4j(neo4j_params)
+        self.Neo4jConnection= Neo4jConnection(neo4j_params)
         self.dss_converter = DSStoCIM()
         self.tmp_dir = tmp_dir
         self.docker_container = docker_container

@@ -1,1 +1,1 @@
-from cimloader.databases.neo4j import Neo4j
+from cimloader.databases.neo4j import Neo4jConnection

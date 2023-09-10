@@ -1,6 +1,6 @@
 
 # from cimloader.databases.blazegraph import Blazegraph
-from cimloader.databases.mysql import MySQL
+from cimloader.databases.mysql import MySQLConnection
 from cimloader.converters.dss_to_cim import DSStoCIM
 from cimloader.databases import ConnectionInterface, ConnectionParameters, Parameter, QueryResponse
 

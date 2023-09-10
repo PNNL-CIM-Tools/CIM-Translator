@@ -11,7 +11,7 @@ from cimgraph.models import GraphModel
 
 _log = logging.getLogger(__name__)
 
-class MySQL(ConnectionInterface):
+class MySQLConnection(ConnectionInterface):
     def __init__(self, connection_parameters: ConnectionParameters):
         self.connection_parameters = connection_parameters
         self.cim_profile = connection_parameters.cim_profile
