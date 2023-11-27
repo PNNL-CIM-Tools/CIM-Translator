@@ -1,5 +1,8 @@
 from converters import mdb2dss
 from cimloader.converters import dss_to_cim
+
+import sys
+
 class MDBToCIM:
     def __init__(self, input_file):
         self.input_file = input_file
@@ -22,3 +25,13 @@ class MDBToCIM:
     def convert_dss_to_cim(self):
         dss_converter = dss_to_cim.DSStoCIM()
         dss_converter.convert_file(file_path=f'{self.out_dir}', master_file='Master.dss')
+
+def usage():
+    print("usage: python synergi_to_cim.py <full path to mdb file>")
+
+
+if __name__ == '__main__':
+    if len(sys.argv) != 2:
+        usage()
+        sys.exit()
+    MDBToCIM(sys.argv[1])
