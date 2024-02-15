@@ -14,12 +14,14 @@ from SPARQLWrapper import JSON, POST, SPARQLWrapper
 _log = logging.getLogger(__name__)
 
 class BlazegraphConnection(ConnectionInterface):
-    def __init__(self, connection_params, cim_profile:str):
-        self.legacy_sparql = importlib.import_module('cimgraph.queries.sparql.' + cim_profile)
-        self.cim = importlib.import_module('cimgraph.data_profile.' + cim_profile)
+    def __init__(self, connection_params: ConnectionInterface) -> None:
+        self.cim_profile = connection_params.cim_profile
+        self.cim = importlib.import_module('cimgraph.data_profile.' + self.cim_profile)
         self.namespace = connection_params.namespace
-        self.sparql_obj: Optional[SPARQLWrapper] = None
-        self.connection_parameters = connection_params
+        self.iec61970_301 = connection_params.iec61970_301
+        self.url = connection_params.url
+        self.connection_params = connection_params
+        self.sparql_obj = None
 
     def connect(self):
         if not self.sparql_obj:

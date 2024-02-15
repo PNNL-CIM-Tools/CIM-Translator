@@ -52,8 +52,9 @@ class Neo4jConnection(ConnectionInterface):
 
     def configure(self):
         if self.cim_profile is not None and self.namespace is not None:
+            # self.execute("CALL n10s.nsprefixes.add(\""+self.cim_profile+"\",\""+self.namespace+"\");")
             self.execute("CREATE CONSTRAINT n10s_unique_uri FOR (r:Resource) REQUIRE r.uri IS UNIQUE;")
-            self.execute("CALL n10s.nsprefixes.add(\""+self.cim_profile+"\",\""+self.namespace+"\");")
+
         else:
             _log.exception("CIM profile and namespace must be defined in ConnectionParameters")
 
@@ -84,3 +85,6 @@ class Neo4jConnection(ConnectionInterface):
     def upload_from_cimgraph(self):
         pass
 
+    def drop_all(self):
+        self.execute("MATCH (n) DETACH DELETE n")
+        self.execute("DROP CONSTRAINT n10s_unique_uri")

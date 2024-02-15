@@ -4,6 +4,7 @@ import logging
 import importlib
 import json
 import enum
+import time
 
 from cimloader.databases import ConnectionInterface, ConnectionParameters, Parameter, QueryResponse
 from cimgraph.data_profile.known_problem_classes import ClassesWithoutMRID
@@ -29,9 +30,11 @@ class MySQLConnection(ConnectionInterface):
         if not self.cursor:
             if not self.database: # Set database name to CIM Profile name if not specified
                 self.database = self.cim_profile 
-
-            self.connection = mysql.connector.connect(host = self.host, user = self.username, password = self.password, database = self.database)
-            self.cursor = self.connection.cursor(buffered = True)
+            try:
+                self.connection = mysql.connector.connect(host = self.host, user = self.username, password = self.password, database = self.database)
+                self.cursor = self.connection.cursor(buffered = True)
+            except:
+                _log.error('Could not connect to database')
 
     def disconnect(self):
         self.cursor = None
@@ -42,8 +45,27 @@ class MySQLConnection(ConnectionInterface):
         response = self.cursor.fetchall()
         return response
     
+    def create_database(self, database:str = None, overwrite:bool = True):
+        if database is None:
+            if self.database is None:
+                database = self.cim_profile
+            else:
+                database = self.database
+        self.database = database
+        connection = mysql.connector.connect(host = self.host, user = self.username, password = self.password)
+        cursor = connection.cursor(buffered = True)
+        if overwrite:
+            # try:
+            cursor.execute(f"DROP DATABASE {database}")
+            # except:
+            #     _log.error("Unable to connect to database")
+        
+        # try:
+        cursor.execute(f"CREATE DATABASE {database}")
+        # except:
+            # _log.error("Unable to create new database")
 
-    def configure(self):
+    def configure(self, overwrite:bool = True):
         class_list = self.cim.__all__
         classes_without_mrid = ClassesWithoutMRID()
         
@@ -69,27 +91,36 @@ class MySQLConnection(ConnectionInterface):
                     # Check if is class and has class fields
                     fields = cim_class.__dataclass_fields__
                     sql_query = f"CREATE TABLE {cim_class.__name__} ("
+                    
+                    sql_query = sql_query + "username VARCHAR(255), "
+                    sql_query = sql_query + "timestamp INT, "
+
                     # Handling for problem classes that don't inherit from IdentifiedObject
                     if cim_class in classes_without_mrid.classes:
                         sql_query = sql_query + "_mRID VARCHAR(255), "
                     # Iterate through all attributes and add to table
                     for attr in list(fields.keys()):
-                        attribute_type = fields[attr].type
+                        attribute_name = fields[attr].type
                         # Determine type of attribute value and use correct column type in table
-                        if "List" in attribute_type:
+                        if "List" in attribute_name:
                             sql_query = sql_query + f"_{attr} JSON, "
-                        elif "float" in attribute_type:
+                        elif "float" in attribute_name:
                             sql_query = sql_query + f"_{attr} FLOAT, "
-                        elif 'Optional' in attribute_type: #check if attribute is association to a class object
-                            if '\'' in attribute_type: #handling inconsistent '' marks in data profile
-                                at_cls = re.match(r'Optional\[\'(.*)\']',attribute_type)
-                                attribute_class = at_cls.group(1)
+                        elif 'Optional' in attribute_name: #check if attribute is association to a class object
+                            if '\'' in attribute_name: #handling inconsistent '' marks in data profile
+                                at_cls = re.match(r'Optional\[\'(.*)\']',attribute_name)
+                                attribute_name = at_cls.group(1)
                             else:        
-                                at_cls = re.match(r'Optional\[(.*)]',attribute_type)
-                                attribute_class = at_cls.group(1)
+                                at_cls = re.match(r'Optional\[(.*)]',attribute_name)
+                                attribute_name = at_cls.group(1)
                             # If a CIM class, then use JSON-LD
-                            if attribute_class in self.cim.__all__:
-                                sql_query = sql_query + f"_{attr} JSON, "
+                            if attribute_name in self.cim.__all__:
+                                attribute_class = eval(f"self.cim.{attribute_name}")
+                                if type(attribute_class) == enum.EnumMeta:
+                                    sql_query = sql_query + f"_{attr} FLOAT, "
+                                else:
+                                    sql_query = sql_query + f"_{attr} JSON, "
+
                             else:
                                 sql_query = sql_query + f"_{attr} VARCHAR(255), "
                         else:
@@ -98,6 +129,7 @@ class MySQLConnection(ConnectionInterface):
                     sql_query = sql_query + ")"
                     # print(sql_query)
                     self.cursor.execute(sql_query) # create table
+                    _log.info(f"Created table for class {class_name}")
             except:
                 _log.warning(f"Unable to create table for class {class_name}")
 
@@ -129,7 +161,10 @@ class MySQLConnection(ConnectionInterface):
                 # Create SQL Query
                 sql_insert = f"INSERT INTO {cim_class.__name__} ("
                 sql_values = " VALUES ("
-                sql_params = []
+                sql_params = [self.username, int(time.time())]
+
+                sql_insert = sql_insert + "username, timestamp, "
+                sql_values = sql_values + f"%s, %s, "
                 # Iterate through each attribute
                 for attr in list(obj.keys()):
                     sql_insert = sql_insert + f"_{attr}, "
