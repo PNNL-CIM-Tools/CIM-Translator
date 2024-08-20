@@ -21,8 +21,8 @@ class ConnectionParameters:
     database: str = field(default_factory=str)
     namespace: str = field(default="<http://iec.ch/TC57/CIM100#>")
     cim_profile: str = field(default_factory=str)
-
-
+    iec61970_301: int = field(default=7)
+    filename: str = field(default_factory=str)
 
 @dataclass
 class QueryResponse:

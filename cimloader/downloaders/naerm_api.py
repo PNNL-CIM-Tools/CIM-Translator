@@ -1,4 +1,4 @@
-from cimloader.databases import ConnectionInterface, ConnectionParameters, Parameter, QueryResponse
+from cimloader.databases import ConnectionInterface, ConnectionParameters
 
 import io
 import zipfile
@@ -9,7 +9,7 @@ import logging
 _log = logging.getLogger(__name__)
 
 class NAERM(ConnectionInterface):
-    def __init__(self, connection_parameters):
+    def __init__(self, connection_parameters:ConnectionParameters):
         self.connection_parameters = connection_parameters
         self.url = connection_parameters.url
 
