@@ -1,7 +1,7 @@
 [tool.poetry]
 name = "cim-loader"
 version = "v0.0.1a"
-description = "CIM Translator"
+description = "CIM Database Uploade & Downloader"
 authors = ["A. Anderson <19935503+AAndersn@users.noreply.github.com>"]
 packages = [
     { include = "cimloader" }
@@ -15,10 +15,10 @@ neo4j = "^5.10.0"
 rdflib = "^7.0.0"
 rdflib-neo4j = "^0.0.1b6"
 #OpenDSSDirect.py = "^0.8.2"
-requests = "^2.30.0"
+requests = "^2.28.0"
 mysql-connector-python = "^8.0.0"
 
-#cim-graph = "^1.0.0"
+cim-graph = "^0.1.5a0"
 #git = "https://github.com/PNNL-CIM-Tools/CIM-Graph/tree/main", branch = "v_1_0_0a", optional = true }
 
 [tool.poetry.extras]
