@@ -3,7 +3,6 @@ Automated scripts for
 * uploading and downloading CIM files from various databases
 * converting CIM files between common formats (XML, TTL, etc.)
 
-
 ## Installation
 The library can be pip installed from PyPi using
 `pip install cim-loader`
