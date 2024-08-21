@@ -1,7 +1,7 @@
 [tool.poetry]
 name = "cim-loader"
 version = "v0.0.1a"
-description = "CIM Database Uploade & Downloader"
+description = "CIM Database Uploader & Downloader"
 authors = ["A. Anderson <19935503+AAndersn@users.noreply.github.com>"]
 packages = [
     { include = "cimloader" }
