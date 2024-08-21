@@ -5,11 +5,14 @@ Automated scripts for
 
 
 ## Installation
-PyPi version coming soon.
+The library can be pip installed from PyPi using
+`pip install cim-loader`
 
-Clone the repo and run
-`pip install -e CIM-Loader`
-
+To install a specific branch, clone the repo and install it using
+```bash
+git clone https://github.com/PNNL-CIM-Tools/CIM-Loader.git -b develop
+pip install -e CIM-Loader
+```
 
 ## Usage
 
