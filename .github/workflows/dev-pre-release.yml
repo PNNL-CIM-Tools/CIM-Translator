@@ -75,7 +75,7 @@
       
     call-deploy-release:
       needs: setup-defaults
-      uses: PNNL-CIM-Tools/.github/.github/workflows/deploy-dev-release.yml@v2
+      uses: PNNL-CIM-Tools/.github/.github/workflows/deploy-dev-release.yml@main
       permissions:
         contents: write  # To push a branch
         pull-requests: write  # To create a PR from that branch
