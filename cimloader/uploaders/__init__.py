@@ -1,2 +1,2 @@
 from cimloader.uploaders.blazegraph import BlazegraphUploader
-# from cimloader.databases.neo4j import Neo4jConnection
+from cimloader.uploaders.neo4j import Neo4jUploader

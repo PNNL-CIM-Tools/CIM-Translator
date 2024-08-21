@@ -21,7 +21,7 @@ from cimloader.uploaders import BlazegraphUploader
 params = ConnectionParameters(url = "http://localhost:8889/bigdata/namespace/kb/sparql")
 loader = BlazegraphUploader(params)
 
-loader.upload_from_file(filename='./test_models/ieee13_seto.xml')
+loader.upload_from_file(filepath='./test_models', filename='ieee13_seto.xml')
 ```
 
 

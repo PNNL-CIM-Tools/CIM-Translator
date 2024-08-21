@@ -1,10 +1,6 @@
 from __future__ import annotations
-import math
-import importlib
 import logging
-import re
-import rdflib
-
+import subprocess
 
 from typing import Dict, List, Optional
 
@@ -29,6 +25,7 @@ class Neo4jConnection(ConnectionInterface):
         self.username = connection_parameters.username
         self.password = connection_parameters.password
         self.database = connection_parameters.database
+        self.container = connection_parameters.container
         self.driver = None
 
     def connect(self):
@@ -65,25 +62,7 @@ class Neo4jConnection(ConnectionInterface):
             handleRDFTypes: "LABELS"})"""
         self.execute(graph_config)
 
-    def upload(self, url:str=None, filepath:str=None, filename:str=None, format:str=None):
-        if url is not None:
-            records=self.execute(f"""call n10s.rdf.import.fetch( {url}, "{format}"); """) 
-        elif filepath is not None and filename is not None:
-            records=self.execute(f"""call n10s.rdf.import.fetch( "file://{filepath}/{filename}", "{format}"); """) 
-        return records
-
-    def upload_from_file(self):
-        pass
-
-    def upload_from_url(self):
-        pass
-
-    def upload_from_rdflib(self, rdflib_graph):
-
-        pass
-
-    def upload_from_cimgraph(self):
-        pass
+    
 
     def drop_all(self):
         self.execute("MATCH (n) DETACH DELETE n")

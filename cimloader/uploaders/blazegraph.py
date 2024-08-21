@@ -14,8 +14,8 @@ class BlazegraphUploader(ConnectionInterface):
         self.connection = BlazegraphConnection(connection_params)
         self.connection.connect()
 
-    def upload_from_file(self, filename):
-        subprocess.call(["curl", "-s", "-D-", "-H", "Content-Type: application/xml", "--upload-file", filename, "-X", "Post", self.url])
+    def upload_from_file(self, filepath:str, filename:str) -> None:
+        subprocess.call(["curl", "-s", "-D-", "-H", "Content-Type: application/xml", "--upload-file", f"{filepath}/{filename}", "-X", "Post", self.url])
         
     def upload_from_url(self):
         pass

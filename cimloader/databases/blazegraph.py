@@ -21,6 +21,12 @@ class BlazegraphConnection(ConnectionInterface):
             self.sparql_obj = SPARQLWrapper(self.connection_params.url)
             self.sparql_obj.setReturnFormat(JSON)
 
+    def configure(self):
+        pass
+
+    def drop_all(self):
+        self.update('drop all')
+
     def disconnect(self):
         self.sparql_obj = None
         
@@ -31,20 +37,9 @@ class BlazegraphConnection(ConnectionInterface):
         query_output = self.sparql_obj.query().convert()
         return query_output
     
-    def drop(self):
-        self.execute('drop all')
-    
-
-    def configure(self):
-        pass
-
-
-    def upload_from_file(self, filename):
-        subprocess.call(["curl", "-s", "-D-", "-H", "Content-Type: application/xml", "--upload-file", filename, "-X", "Post", self.url])
-        
-    def upload_from_url(self):
-        pass
-
-    def upload_from_rdflib(self, rdflib_graph):
-
-        pass
+    def update(self, query_message:str) -> QueryResponse:
+        self.connect()
+        self.sparql_obj.setQuery(query_message)
+        self.sparql_obj.setMethod(POST)
+        query_output = self.sparql_obj.query()
+        return query_output
